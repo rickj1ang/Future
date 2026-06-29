@@ -91,6 +91,10 @@ export interface UseChatResult {
   ) => Promise<void>
   /** 仅前端关闭面板，不调接口（用于超时兑底） */
   dismissElicit: () => void
+  /** 清空所有消息（跳过回放时用） */
+  clearMessages: () => void
+  /** 幽灵回放专用：把录制的 SSE 事件喂给状态机 */
+  feedEvent: (ev: SSEEvent) => void
 }
 
 export function useChat(): UseChatResult {
@@ -139,6 +143,83 @@ export function useChat(): UseChatResult {
     setPendingElicit(null)
   }, [])
 
+  const clearMessages = useCallback(() => {
+    setMessages([])
+    pendingElicitRef.current = null
+    setPendingElicit(null)
+  }, [])
+
+  /** 处理 SSE 事件的核心状态机，send() 和 feedEvent() 共用。 */
+  const handleEventFor = useCallback(
+    (aiMsgId: string, ev: SSEEvent) => {
+      switch (ev.event) {
+        case 'text_delta':
+          setMessages((prev) =>
+            patchById(prev, aiMsgId, (m) => ({ ...m, text: m.text + ev.data.text })),
+          )
+          break
+        case 'tool_call':
+          setMessages((prev) =>
+            patchById(prev, aiMsgId, (m) => ({
+              ...m,
+              parts: [
+                ...m.parts,
+                {
+                  kind: 'tool',
+                  id: ev.data.id,
+                  name: ev.data.name,
+                  arguments: ev.data.arguments,
+                },
+              ],
+            })),
+          )
+          break
+        case 'tool_result':
+          // 订单同步：place_order/cancel_order 的 summary 里嵌了完整订单 JSON
+          if (!ev.data.isError) {
+            const order = parseOrderFromSummary(ev.data.name, ev.data.summary)
+            if (order) upsertOrder(order)
+          }
+          setMessages((prev) =>
+            patchById(prev, aiMsgId, (m) => ({
+              ...m,
+              parts: m.parts.map((p) =>
+                p.kind === 'tool' && p.name === ev.data.name && !p.result
+                  ? { ...p, result: { summary: ev.data.summary, isError: ev.data.isError } }
+                  : p,
+              ),
+            })),
+          )
+          break
+        case 'ui':
+          setMessages((prev) =>
+            patchById(prev, aiMsgId, (m) => ({
+              ...m,
+              parts: [...m.parts, { kind: 'ui', html: ev.data.html, meta: ev.data.meta }],
+            })),
+          )
+          break
+        case 'elicit':
+          pendingElicitRef.current = ev.data
+          setPendingElicit(ev.data)
+          break
+        case 'done':
+          setMessages((prev) => patchById(prev, aiMsgId, (m) => ({ ...m, status: 'done' })))
+          break
+        case 'error':
+          setMessages((prev) =>
+            patchById(prev, aiMsgId, (m) => ({
+              ...m,
+              status: 'error',
+              text: m.text || `⚠️ ${ev.data.message}`,
+            })),
+          )
+          break
+      }
+    },
+    [upsertOrder],
+  )
+
   const send = useCallback((text: string) => {
     const content = text.trim()
     if (!content) return
@@ -168,77 +249,7 @@ export function useChat(): UseChatResult {
     setMessages((prev) => [...prev, userMsg, aiMsg])
     setSending(true)
 
-    const handleEvent = (ev: SSEEvent) => {
-      switch (ev.event) {
-        case 'text_delta':
-          setMessages((prev) =>
-            patchById(prev, aiMsgId, (m) => ({ ...m, text: m.text + ev.data.text })),
-          )
-          break
-        case 'tool_call':
-          // 入 parts；第 2 步在渲染层显示徽章
-          setMessages((prev) =>
-            patchById(prev, aiMsgId, (m) => ({
-              ...m,
-              parts: [
-                ...m.parts,
-                {
-                  kind: 'tool',
-                  id: ev.data.id,
-                  name: ev.data.name,
-                  arguments: ev.data.arguments,
-                },
-              ],
-            })),
-          )
-          break
-        case 'tool_result':
-          // 订单同步（见 order-sync.ts）：place_order/cancel_order 的 summary
-          // 里嵌了完整订单，注入左侧 store，订单列表即时更新。
-          if (!ev.data.isError) {
-            const order = parseOrderFromSummary(ev.data.name, ev.data.summary)
-            if (order) upsertOrder(order)
-          }
-          setMessages((prev) =>
-            patchById(prev, aiMsgId, (m) => ({
-              ...m,
-              parts: m.parts.map((p) =>
-                p.kind === 'tool' && p.name === ev.data.name && !p.result
-                  ? { ...p, result: { summary: ev.data.summary, isError: ev.data.isError } }
-                  : p,
-              ),
-            })),
-          )
-          break
-        case 'ui':
-          // 入 parts；第 3 步在渲染层插入 sandbox iframe
-          setMessages((prev) =>
-            patchById(prev, aiMsgId, (m) => ({
-              ...m,
-              parts: [...m.parts, { kind: 'ui', html: ev.data.html, meta: ev.data.meta }],
-            })),
-          )
-          break
-        case 'elicit':
-          // 存为 pending，UI 弹出交易面板。SSE 流在后端阻塞等待用户响应，
-          // 用户操作（respondElicit）后流自动继续（plan §4）。
-          pendingElicitRef.current = ev.data
-          setPendingElicit(ev.data)
-          break
-        case 'done':
-          setMessages((prev) => patchById(prev, aiMsgId, (m) => ({ ...m, status: 'done' })))
-          break
-        case 'error':
-          setMessages((prev) =>
-            patchById(prev, aiMsgId, (m) => ({
-              ...m,
-              status: 'error',
-              text: m.text || `⚠️ ${ev.data.message}`,
-            })),
-          )
-          break
-      }
-    }
+    const handleEvent = (ev: SSEEvent) => handleEventFor(aiMsgId, ev)
 
     postChat(history, handleEvent, controller.signal)
       .catch((err: unknown) => {
@@ -262,5 +273,43 @@ export function useChat(): UseChatResult {
       })
   }, [])
 
-  return { messages, sending, pendingElicit, send, abort, respondElicit, dismissElicit }
+  // 幽灵回放：喂录制的 SSE 事件给状态机，不开网络请求。
+  // 每个场景开一个 user+streaming-assistant 槽位，然后逐事件喂。
+  // elicit 事件回放时不阻塞（录制时等了 60s 手动确认），
+  // 这里在弹窗后模拟“用户思考几秒后自动接受”。
+  const replayTurnRef = useRef<string | null>(null)
+  const feedEvent = useCallback(
+    (ev: SSEEvent) => {
+      const eventName = ev.event as string
+      // 回放专用控制事件：为一个新场景开槽位
+      if (eventName === '__replay_new_turn') {
+        const aiMsgId = genId()
+        replayTurnRef.current = aiMsgId
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: genId(),
+            role: 'user',
+            text: (ev.data as { prompt?: string }).prompt ?? '',
+            parts: [],
+            status: 'done',
+          },
+          { id: aiMsgId, role: 'assistant', text: '', parts: [], status: 'streaming' },
+        ])
+        return
+      }
+      // 回放专用控制事件：关闭 elicit 弹窗（视觉上“点掉”）
+      if (eventName === '__replay_dismiss_elicit') {
+        pendingElicitRef.current = null
+        setPendingElicit(null)
+        return
+      }
+      const aiMsgId = replayTurnRef.current
+      if (!aiMsgId) return
+      handleEventFor(aiMsgId, ev)
+    },
+    [handleEventFor],
+  )
+
+  return { messages, sending, pendingElicit, send, abort, respondElicit, dismissElicit, clearMessages, feedEvent }
 }

@@ -14,11 +14,49 @@ const BASE_URL = import.meta.env.VITE_CORE_AGENT_URL ?? ''
  * 浏览器 EventSource 不支持 POST，所以用 fetch + ReadableStream 手写解析。
  * 注意：一次 read 的 chunk 可能在事件中间断开，必须用 buffer 累积 + 按 "\n\n" 切分。
  */
+// ── 回放录制钩子（开发时用，生产编译死代码移除）──────────────────
+// 用法：localStorage.setItem('REPLAY_RECORD','1') 后跑真实对话，
+// 会把 prompt + 全部 SSE 事件带时间戳收集起来，done 时下载 JSON。
+// 详见 replay/README.md。
+const RECORDING =
+  typeof localStorage !== 'undefined' && localStorage.getItem('REPLAY_RECORD') === '1'
+let _rec: { prompt: string; t0: number; events: { t: number; ev: SSEEvent }[] } | null = null
+
+function recordEvent(ev: SSEEvent) {
+  if (!RECORDING) return
+  if (!_rec) return
+  _rec.events.push({ t: performance.now() - _rec.t0, ev })
+  if (ev.event === 'done' || ev.event === 'error') {
+    const dump = JSON.stringify(_rec, null, 2)
+    _rec = null
+    console.info('%c[replay] 录制完成，下载', 'color:#0ea5e9', dump.length, 'bytes')
+    const blob = new Blob([dump], { type: 'application/json' })
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(blob)
+    a.download = `replay-${Date.now()}.json`
+    a.click()
+  }
+}
+
 export async function postChat(
   messages: ChatMessage[],
   onEvent: (ev: SSEEvent) => void,
   signal?: AbortSignal,
 ): Promise<void> {
+  // 录制：记录本轮 prompt + 起始时间戳
+  if (RECORDING) {
+    const lastUser = [...messages].reverse().find((m) => m.role === 'user')
+    _rec = {
+      prompt: lastUser?.content ?? '',
+      t0: performance.now(),
+      events: [],
+    }
+  }
+  const wrappedCb = (ev: SSEEvent) => {
+    recordEvent(ev)
+    onEvent(ev)
+  }
+
   const resp = await fetch(`${BASE_URL}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
@@ -45,7 +83,7 @@ export async function postChat(
       const block = buffer.slice(0, idx)
       buffer = buffer.slice(idx + 2)
       const ev = parseSSEBlock(block)
-      if (ev) onEvent(ev)
+      if (ev) wrappedCb(ev)
     }
   }
 }

@@ -1,0 +1,3596 @@
+{
+  "version": 1,
+  "recorded_at": "2026-06-29T17:07:21.068853",
+  "backend": "http://152.32.202.56",
+  "scenes": [
+    {
+      "prompt": "看看茅台最近的走势",
+      "label": "行情",
+      "events": [
+        {
+          "t": 1609,
+          "event": "text_delta",
+          "data": {
+            "text": "好的"
+          }
+        },
+        {
+          "t": 1609,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 1609,
+          "event": "text_delta",
+          "data": {
+            "text": "我来"
+          }
+        },
+        {
+          "t": 1609,
+          "event": "text_delta",
+          "data": {
+            "text": "查询"
+          }
+        },
+        {
+          "t": 1609,
+          "event": "text_delta",
+          "data": {
+            "text": "贵州"
+          }
+        },
+        {
+          "t": 1609,
+          "event": "text_delta",
+          "data": {
+            "text": "茅台"
+          }
+        },
+        {
+          "t": 1609,
+          "event": "text_delta",
+          "data": {
+            "text": "的最新"
+          }
+        },
+        {
+          "t": 1609,
+          "event": "text_delta",
+          "data": {
+            "text": "行情"
+          }
+        },
+        {
+          "t": 1609,
+          "event": "text_delta",
+          "data": {
+            "text": "走势"
+          }
+        },
+        {
+          "t": 1609,
+          "event": "text_delta",
+          "data": {
+            "text": "。"
+          }
+        },
+        {
+          "t": 1609,
+          "event": "tool_call",
+          "data": {
+            "arguments": {
+              "code": "贵州茅台"
+            },
+            "id": "call_00_Ptkl4CaDtr3VsfIT6k937160",
+            "name": "query_kline"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "ui",
+          "data": {
+            "html": "<!DOCTYPE html>\n<html lang=\"zh\">\n<head>\n<meta charset=\"utf-8\"/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n<title>贵州茅台 K线</title>\n<style>\n  html,body{margin:0;height:100%;background:#fff;font-family:system-ui,sans-serif}\n  #chart{position:absolute;left:0;right:0;top:0;bottom:0}\n  .err{padding:16px;color:#c00}\n</style>\n</head>\n<body>\n<div id=\"chart\"></div>\n<script src=\"https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js\"></script>\n<script>\n(function () {\n  var el = document.getElementById('chart');\n  if (!window.LightweightCharts) { el.innerHTML = '<div class=\"err\">图表库加载失败（需要联网访问 CDN）</div>'; return; }\n  var chart = LightweightCharts.createChart(el, {\n    autoSize: true,\n    layout: { background: { type: 'solid', color: '#fff' }, textColor: '#333' },\n    grid: { vertLines: { color: '#f0f0f0' }, horzLines: { color: '#f0f0f0' } },\n    timeScale: { timeVisible: true, secondsVisible: false },\n    crosshair: { mode: LightweightCharts.CrosshairMode.Normal },\n    localization: { locale: 'zh-CN' }\n  });\n\n  \n  var candle = chart.addCandlestickSeries({\n    upColor: '#e55151', downColor: '#249954',\n    borderUpColor: '#e55151', borderDownColor: '#249954',\n    wickUpColor: '#e55151', wickDownColor: '#249954'\n  });\n  candle.setData([{\"time\":1780218361,\"open\":1800,\"high\":1802,\"low\":1799,\"close\":1799},{\"time\":1780304761,\"open\":1800.5,\"high\":1805.5,\"low\":1799.5,\"close\":1802.5},{\"time\":1780391161,\"open\":1801,\"high\":1806,\"low\":1800,\"close\":1803},{\"time\":1780477561,\"open\":1801.5,\"high\":1806.5,\"low\":1800.5,\"close\":1803.5},{\"time\":1780563961,\"open\":1802,\"high\":1804,\"low\":1801,\"close\":1801},{\"time\":1780650361,\"open\":1802.5,\"high\":1807.5,\"low\":1801.5,\"close\":1804.5},{\"time\":1780736761,\"open\":1803,\"high\":1808,\"low\":1802,\"close\":1805},{\"time\":1780823161,\"open\":1803.5,\"high\":1808.5,\"low\":1802.5,\"close\":1805.5},{\"time\":1780909561,\"open\":1804,\"high\":1806,\"low\":1803,\"close\":1803},{\"time\":1780995961,\"open\":1804.5,\"high\":1809.5,\"low\":1803.5,\"close\":1806.5},{\"time\":1781082361,\"open\":1805,\"high\":1810,\"low\":1804,\"close\":1807},{\"time\":1781168761,\"open\":1805.5,\"high\":1810.5,\"low\":1804.5,\"close\":1807.5},{\"time\":1781255161,\"open\":1806,\"high\":1808,\"low\":1805,\"close\":1805},{\"time\":1781341561,\"open\":1806.5,\"high\":1811.5,\"low\":1805.5,\"close\":1808.5},{\"time\":1781427961,\"open\":1807,\"high\":1812,\"low\":1806,\"close\":1809},{\"time\":1781514361,\"open\":1807.5,\"high\":1812.5,\"low\":1806.5,\"close\":1809.5},{\"time\":1781600761,\"open\":1808,\"high\":1810,\"low\":1807,\"close\":1807},{\"time\":1781687161,\"open\":1808.5,\"high\":1813.5,\"low\":1807.5,\"close\":1810.5},{\"time\":1781773561,\"open\":1809,\"high\":1814,\"low\":1808,\"close\":1811},{\"time\":1781859961,\"open\":1809.5,\"high\":1814.5,\"low\":1808.5,\"close\":1811.5},{\"time\":1781946361,\"open\":1810,\"high\":1812,\"low\":1809,\"close\":1809},{\"time\":1782032761,\"open\":1810.5,\"high\":1815.5,\"low\":1809.5,\"close\":1812.5},{\"time\":1782119161,\"open\":1811,\"high\":1816,\"low\":1810,\"close\":1813},{\"time\":1782205561,\"open\":1811.5,\"high\":1816.5,\"low\":1810.5,\"close\":1813.5},{\"time\":1782291961,\"open\":1812,\"high\":1814,\"low\":1811,\"close\":1811},{\"time\":1782378361,\"open\":1812.5,\"high\":1817.5,\"low\":1811.5,\"close\":1814.5},{\"time\":1782464761,\"open\":1813,\"high\":1818,\"low\":1812,\"close\":1815},{\"time\":1782551161,\"open\":1813.5,\"high\":1818.5,\"low\":1812.5,\"close\":1815.5},{\"time\":1782637561,\"open\":1814,\"high\":1816,\"low\":1813,\"close\":1813},{\"time\":1782723961,\"open\":1814.5,\"high\":1819.5,\"low\":1813.5,\"close\":1816.5}]);\n\n  \n  var volume = chart.addHistogramSeries({\n    priceFormat: { type: 'volume' },\n    priceScaleId: 'vol'\n  });\n  chart.priceScale('vol').applyOptions({\n    scaleMargins: { top: 0.8, bottom: 0 }\n  });\n  volume.setData([{\"time\":1780218361,\"value\":10000,\"color\":\"rgba(36,153,84,0.6)\"},{\"time\":1780304761,\"value\":10500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1780391161,\"value\":11000,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1780477561,\"value\":11500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1780563961,\"value\":12000,\"color\":\"rgba(36,153,84,0.6)\"},{\"time\":1780650361,\"value\":12500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1780736761,\"value\":13000,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1780823161,\"value\":13500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1780909561,\"value\":14000,\"color\":\"rgba(36,153,84,0.6)\"},{\"time\":1780995961,\"value\":14500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1781082361,\"value\":15000,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1781168761,\"value\":15500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1781255161,\"value\":16000,\"color\":\"rgba(36,153,84,0.6)\"},{\"time\":1781341561,\"value\":16500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1781427961,\"value\":17000,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1781514361,\"value\":17500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1781600761,\"value\":18000,\"color\":\"rgba(36,153,84,0.6)\"},{\"time\":1781687161,\"value\":18500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1781773561,\"value\":19000,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1781859961,\"value\":19500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1781946361,\"value\":20000,\"color\":\"rgba(36,153,84,0.6)\"},{\"time\":1782032761,\"value\":20500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1782119161,\"value\":21000,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1782205561,\"value\":21500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1782291961,\"value\":22000,\"color\":\"rgba(36,153,84,0.6)\"},{\"time\":1782378361,\"value\":22500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1782464761,\"value\":23000,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1782551161,\"value\":23500,\"color\":\"rgba(229,81,81,0.6)\"},{\"time\":1782637561,\"value\":24000,\"color\":\"rgba(36,153,84,0.6)\"},{\"time\":1782723961,\"value\":24500,\"color\":\"rgba(229,81,81,0.6)\"}]);\n\n  \n  chart.timeScale().fitContent();\n})();\n</script>\n</body>\n</html>\n",
+            "meta": {
+              "uri": "ui://kline/%E8%B4%B5%E5%B7%9E%E8%8C%85%E5%8F%B0"
+            }
+          }
+        },
+        {
+          "t": 2967,
+          "event": "tool_result",
+          "data": {
+            "isError": false,
+            "name": "query_kline",
+            "summary": "贵州茅台 近 30 日：最新收盘 1816.50，区间 [1799.00, 1819.50]，区间涨跌 16.50（+0.92%）\n\n（已在对话中展示 贵州茅台 的可交互 K 线图）"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "以下是"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "贵州"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "茅台"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "（"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "600"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "519"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "）"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "近"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "期的"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "走势"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "概况"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "：\n\n"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "📈"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "近"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "30"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "日"
+          }
+        },
+        {
+          "t": 2967,
+          "event": "text_delta",
+          "data": {
+            "text": "表现"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "**\n"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "-"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "最新"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "收盘"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "价"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "："
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "181"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "6"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "."
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "50"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "元"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "**\n"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "-"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "区间"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "范围"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "："
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "179"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "9"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "."
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "00"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": " ~"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "181"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "9"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "."
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "50"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "元"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "\n"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "-"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "区间"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "涨"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "跌幅"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "："
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "+"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "0"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "."
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "92"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "%"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "（"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "上涨"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "16"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "."
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "50"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "元"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "）\n\n"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "整体"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "来看"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "茅台"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "近期"
+          }
+        },
+        {
+          "t": 3829,
+          "event": "text_delta",
+          "data": {
+            "text": "走势"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "相对"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "平稳"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "在"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "179"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "9"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "~"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "182"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "0"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "元"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "区间"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "窄"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "幅"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "震荡"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 3830,
+          "event": "text_delta",
+          "data": {
+            "text": "波动"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "幅度"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "不大"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "走势"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "偏"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "稳"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "。"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "K"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "线"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "图"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "已"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "在上"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "方"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "展示"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "您可以"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "查看"
+          }
+        },
+        {
+          "t": 3832,
+          "event": "text_delta",
+          "data": {
+            "text": "具体的"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "日"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "K"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "线"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "细节"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "。\n\n"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "请问"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "您"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "还有什么"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "需求"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "？"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "比如"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "想"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "买入"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "或"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "卖出"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "茅台"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "或者"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "想"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "查看"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "其他"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "股票"
+          }
+        },
+        {
+          "t": 4021,
+          "event": "text_delta",
+          "data": {
+            "text": "？"
+          }
+        }
+      ]
+    },
+    {
+      "prompt": "帮我买入100股贵州茅台",
+      "label": "下单",
+      "events": [
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "好的"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "我来"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "为您"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "发起"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "买入"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "贵州"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "茅"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "台的"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "市"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "价"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "单"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "。"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "tool_call",
+          "data": {
+            "arguments": {
+              "code": "600519",
+              "direction": "buy",
+              "quantity": 100,
+              "type": "market"
+            },
+            "id": "call_00_SWtGEiaNOiBF9laB9cMc6193",
+            "name": "place_order"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "elicit",
+          "data": {
+            "id": "elicit_30ad0d04f218e146",
+            "message": "确认下单：600519 buy 100 股 market，价格 0.00",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "股票代码",
+                  "type": "string"
+                },
+                "direction": {
+                  "enum": [
+                    "buy",
+                    "sell"
+                  ],
+                  "type": "string"
+                },
+                "price": {
+                  "description": "价格（市价单可忽略）",
+                  "type": "number"
+                },
+                "quantity": {
+                  "description": "数量（股）",
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "type": {
+                  "enum": [
+                    "limit",
+                    "market"
+                  ],
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        {
+          "t": 64409,
+          "event": "tool_result",
+          "data": {
+            "isError": true,
+            "name": "place_order",
+            "summary": "用户已取消本次下单"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "看来"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "您"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "取消了"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "本次"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "下单"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "。"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "请问"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "您"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "是否"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "想要"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "调整"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "参数"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "重新"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "下单"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "？"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "比如"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "：\n\n"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "1"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "."
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "改为"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "限"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "价"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "单"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "指定"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "一个"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "买入"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "价格"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "\n"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "2"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "."
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "调整"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "买入"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "数量"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "**\n"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "3"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "."
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "先"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "查看"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "贵州"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "茅"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "台的"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "行情"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "再"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "决定"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "价格"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "\n\n"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "您"
+          }
+        },
+        {
+          "t": 64409,
+          "event": "text_delta",
+          "data": {
+            "text": "有什么"
+          }
+        },
+        {
+          "t": 64410,
+          "event": "text_delta",
+          "data": {
+            "text": "想法"
+          }
+        },
+        {
+          "t": 64410,
+          "event": "text_delta",
+          "data": {
+            "text": "？"
+          }
+        }
+      ]
+    },
+    {
+      "prompt": "我有哪些订单？",
+      "label": "查单",
+      "events": [
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "好的"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "我来"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "查询"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "您"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "当前的"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "订单"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "情况"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "。"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "tool_call",
+          "data": {
+            "arguments": {},
+            "id": "call_00_C9IyV6rNA7JnJlchie6g3841",
+            "name": "list_orders"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "tool_result",
+          "data": {
+            "isError": false,
+            "name": "list_orders",
+            "summary": "{\"orders\":[{\"code\":\"贵州茅台\",\"created_at\":\"2026-06-29T08:29:45.673284974Z\",\"direction\":\"buy\",\"id\":\"ORD-1\",\"price\":1800,\"quantity\":100,\"status\":\"pending\",\"type\":\"limit\"}]}"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "您"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "目前"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "有"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "1"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "笔"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "订单"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "：\n\n"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "|"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "订单"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " ID"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "股票"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "方向"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "类型"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "价格"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "数量"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "状态"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " |\n"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "|"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "-------"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":|"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "---"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":|"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "---"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":|"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "---"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":|"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "---"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":|"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "---"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":|"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "---"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": ":"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "|\n"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "|"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": " OR"
+          }
+        },
+        {
+          "t": 2949,
+          "event": "text_delta",
+          "data": {
+            "text": "D"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "-"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "1"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "贵州"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "茅台"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "买入"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "限"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "价"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "180"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "0"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "元"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "100"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": "股"
+          }
+        },
+        {
+          "t": 2950,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": " ⏳"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "待"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "成交"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": " |\n\n"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "这"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "还是一个"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "尚未"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "成交"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "的"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "买入"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "挂"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "单"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "。"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "如果您"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "想"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "撤销"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "该"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "订单"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "或者"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "进行"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "其他"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "操作"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "（"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "如"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "查看"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "行情"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "、"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "下"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "新"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "单"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "），"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "随时"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "告诉我"
+          }
+        },
+        {
+          "t": 3365,
+          "event": "text_delta",
+          "data": {
+            "text": "！"
+          }
+        }
+      ]
+    },
+    {
+      "prompt": "撤销最新的那个买单",
+      "label": "撤单",
+      "events": [
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "好的"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "我先"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "查询"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "当前"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "所有"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "订单"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "找到"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "最新的"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "买单"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "。"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "tool_call",
+          "data": {
+            "arguments": {},
+            "id": "call_00_Z4UMf5UpfKYfHbWDgSaf0584",
+            "name": "list_orders"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "tool_result",
+          "data": {
+            "isError": false,
+            "name": "list_orders",
+            "summary": "{\"orders\":[{\"code\":\"贵州茅台\",\"created_at\":\"2026-06-29T08:29:45.673284974Z\",\"direction\":\"buy\",\"id\":\"ORD-1\",\"price\":1800,\"quantity\":100,\"status\":\"pending\",\"type\":\"limit\"}]}"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "找到"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "最新的"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "买单"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "："
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "贵州"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "茅台"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "买入"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "100"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "股"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "限"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "价"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "180"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "0"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "元"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "订单"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "ID"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "为"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "ORD"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "-"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "1"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "。"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "我来"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "撤销"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "它"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "。"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "tool_call",
+          "data": {
+            "arguments": {
+              "id": "ORD-1"
+            },
+            "id": "call_00_QIQ5DDh1nAnqjzaQ89P13843",
+            "name": "cancel_order"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "tool_result",
+          "data": {
+            "isError": false,
+            "name": "cancel_order",
+            "summary": "{\"order\":{\"code\":\"贵州茅台\",\"created_at\":\"2026-06-29T08:29:45.673284974Z\",\"direction\":\"buy\",\"id\":\"ORD-1\",\"price\":1800,\"quantity\":100,\"status\":\"canceled\",\"type\":\"limit\"},\"status\":\"canceled\"}"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "已"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "成功"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "撤销"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "！"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "以下是"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "撤销"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "的"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "订单"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "详情"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "：\n\n"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "|"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "项目"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "内容"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": " |\n"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "|"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "------"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "|"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "------"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "|\n"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "|"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "股票"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "贵州"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "茅台"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": " |\n"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "|"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "方向"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 4699,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "买入"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " |\n"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "|"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "数量"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "100"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "股"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " |\n"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "|"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "限"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "价"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "180"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "0"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " "
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "元"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " |\n"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "|"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "订单"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "状态"
+          }
+        },
+        {
+          "t": 5168,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": " |"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": " ✅"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": " **"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "已"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "撤销"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "**"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": " |\n\n"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "该"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "买单"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "目前已"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "取消"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "不会再"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "成交"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "。"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "如果您"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "后续"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "想"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "重新"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "下单"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "，"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "随时"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "告诉"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "我就"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "好"
+          }
+        },
+        {
+          "t": 5169,
+          "event": "text_delta",
+          "data": {
+            "text": "！"
+          }
+        }
+      ]
+    }
+  ]
+}
