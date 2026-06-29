@@ -1,0 +1,40 @@
+# ════════════════════════════════════════════════════
+# Future 生产编排（服务器端）
+# 由 GitHub Actions 写入 /opt/future/，从 GHCR 拉镜像，不本地构建。
+#
+# 架构:
+#   frontend(nginx:80) ─┬─ 静态文件
+#                       └─ proxy /chat /elicit /health → core-agent:8081
+#   core-agent:8081 ──→ mcp-server:8080 (内网)
+#   core-agent ──→ DeepSeek API (外网)
+#
+# 镜像标签由 CI 注入 ($TAG)，默认 latest。
+# ════════════════════════════════════════════════════
+
+services:
+  frontend:
+    image: ghcr.io/rickj1ang/future-frontend:${TAG:-latest}
+    container_name: future-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - core-agent
+
+  core-agent:
+    image: ghcr.io/rickj1ang/future-core-agent:${TAG:-latest}
+    container_name: future-core-agent
+    restart: unless-stopped
+    environment:
+      MCP_SERVER_URL: http://mcp-server:8080/mcp
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-https://api.deepseek.com}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:?DEEPSEEK_API_KEY 必须在 /opt/future/.env 配置}
+      LLM_MODEL: ${LLM_MODEL:-deepseek-v4-flash}
+      AGENT_PORT: "8081"
+    depends_on:
+      - mcp-server
+
+  mcp-server:
+    image: ghcr.io/rickj1ang/future-mcp-server:${TAG:-latest}
+    container_name: future-mcp-server
+    restart: unless-stopped

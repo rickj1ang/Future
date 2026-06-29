@@ -1,50 +1,52 @@
 # ════════════════════════════════════════════════════
-# Future 后端镜像：自动构建并发布到 GitHub Container Registry (GHCR)
+# Future 镜像：构建 → 发布 GHCR → 自动部署到服务器
 #
 # 触发：
-#   - 推送 main 且改动 backend/** 或本工作流文件
-#   - 打 tag v* 时（会用版本号作为镜像标签）
+#   - 推送 main 且改动 frontend/** / backend/**
+#   - 打 tag v* （额外打语义化版本标签）
 #   - Actions 页面手动运行 (workflow_dispatch)
 #
-# 产物：
-#   ghcr.io/rickj1ang/future-mcp-server:<tag>
-#   ghcr.io/rickj1ang/future-core-agent:<tag>
-# 标签策略：latest / 分支名 / commit 短 sha / git tag
-# 架构：linux/amd64 + linux/arm64（静态 Go 二进制，构建快）
+# 镜像（ghcr.io/rickj1ang/）:
+#   future-mcp-server   / future-core-agent   / future-frontend
+# 标签: latest / 分支名 / commit 短 sha / git tag
+# 架构: linux/amd64 + linux/arm64
+#
+# 部署: build-all 完成后，deploy job 用 SSH 登服务器执行
+#       docker compose pull && up -d（见 compose.prod.yml）
 # ════════════════════════════════════════════════════
 
-name: Build & Publish Docker Images
+name: Build, Publish & Deploy
 
 on:
   push:
     branches: [main]
     tags: ['v*']
     paths:
+      - 'frontend/**'
       - 'backend/**'
       - '.github/workflows/docker.yml'
-  workflow_dispatch:   # 允许在 Actions 页面手动触发
+  workflow_dispatch:
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write     # 推送到 GHCR 必需
-
+      packages: write
     strategy:
-      fail-fast: false     # 一个镜像失败不影响另一个
+      fail-fast: false
       matrix:
         include:
           - image: future-mcp-server
             context: backend/mcp-server
           - image: future-core-agent
             context: backend/core-agent
-
+          - image: future-frontend
+            context: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 多架构构建：arm64 通过 QEMU 模拟
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -56,9 +58,8 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}   # 自动提供，无需配置
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      # 自动生成标签：latest(仅默认分支) / branch / sha / tag
       - name: Generate image tags
         id: meta
         uses: docker/metadata-action@v5
@@ -79,8 +80,54 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          # GitHub Actions cache：改代码不重下/重编 Go 依赖，大幅提速
           cache-from: type=gha,scope=${{ matrix.image }}
           cache-to: type=gha,mode=max,scope=${{ matrix.image }}
           build-args: |
             BUILDKIT_INLINE_CACHE=1
+
+  # ── 部署：等三个镜像都构建完，SSH 登服务器拉新镜像并重启 ──
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'   # 只部署 main 分支
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 先把 compose 文件 scp 到服务器（保证服务器上永远是最新版）
+      - name: Copy compose file to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "compose.prod.yml"
+          target: "/opt/future"
+
+      # 再 SSH 执行部署命令
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            cd /opt/future
+
+            echo "▶ 拉取最新镜像..."
+            docker compose -f compose.prod.yml pull
+
+            echo "▶ 滚动更新..."
+            docker compose -f compose.prod.yml up -d --remove-orphans
+
+            echo "▶ 健康检查 core-agent..."
+            for i in $(seq 1 10); do
+              if curl -sf http://localhost:8081/health >/dev/null 2>&1; then
+                echo "✅ core-agent 健康"; exit 0
+              fi
+              sleep 2
+            done
+            echo "⚠️ core-agent 20s 内未就绪，请查 docker logs" >&2
+            docker compose -f compose.prod.yml logs --tail=20 core-agent
+            exit 1

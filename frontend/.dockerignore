@@ -1,0 +1,21 @@
+# 前端镜像构建上下文忽略
+node_modules
+dist
+dist-ssr
+*.tsbuildinfo
+
+# vite.config.ts 编译产物（源 .ts 保留）
+vite.config.js
+vite.config.d.ts
+
+# 本地环境
+.env
+.env.local
+
+# Docker 自身文件
+Dockerfile
+.dockerignore
+
+# OS / 文档
+.DS_Store
+*.md
