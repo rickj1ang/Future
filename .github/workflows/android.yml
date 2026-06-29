@@ -27,6 +27,10 @@ on:
       - '.github/workflows/android.yml'
   workflow_dispatch:
 
+# 发 Release 需要 contents: write 权限
+permissions:
+  contents: write
+
 jobs:
   build-apk:
     runs-on: ubuntu-latest
