@@ -41,13 +41,12 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
-      # Capacitor 8 / AGP 8 需要 JDK 17+；顺带缓存 Gradle 依赖
+      # Capacitor 8 / AGP 8 需要 JDK 17+
       - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-          cache: gradle
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -82,6 +81,16 @@ jobs:
       - name: Sync web → native
         working-directory: frontend
         run: npx cap sync android
+
+      # Gradle 文件此刻已由 cap add 生成，恢复缓存加速构建
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('frontend/android/**/*.gradle*', 'frontend/android/**/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ runner.os }}-
 
       - name: Build debug APK
         working-directory: frontend/android
