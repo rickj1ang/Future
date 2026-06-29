@@ -1,0 +1,103 @@
+# ════════════════════════════════════════════════════
+# Future Android：用 Capacitor 把前端打包成 debug APK
+#
+# 产物：app-debug.apk（内部测试用，未签名上架）
+# 下载：Actions 页面 → 点某次运行 → Artifacts 下载
+#
+# 触发：
+#   - 打 tag apk* 或 v* （出发布包）
+#   - 改动 frontend/** 或本工作流后推 main
+#   - Actions 页面手动运行 (workflow_dispatch)
+#
+# 架构注意：
+#   - 只在 amd64 runner 跑（Android Gradle 不兼容 arm64+QEMU）
+#   - cleartext HTTP：后端没上 HTTPS，靠 AndroidManifest
+#     usesCleartextTraffic=true 解锁明文流量
+#   - 后端地址：构建时注入 VITE_CORE_AGENT_URL（指向服务器）
+# ════════════════════════════════════════════════════
+
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+    tags: ['apk*', 'v*']
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/android.yml'
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # Capacitor 8 / AGP 8 需要 JDK 17+；顺带缓存 Gradle 依赖
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: ''
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      # 构建前端，注入服务器地址（app 内不能用相对路径）
+      - name: Build web assets
+        working-directory: frontend
+        env:
+          VITE_CORE_AGENT_URL: http://${{ secrets.SERVER_IP }}
+        run: npm run build
+
+      # 生成 Android 原生工程
+      - name: Add Android platform
+        working-directory: frontend
+        run: npx cap add android
+
+      # 解锁明文 HTTP（后端没 HTTPS，内部测试用）
+      - name: Enable cleartext traffic
+        working-directory: frontend
+        run: |
+          sed -i 's/<application/<application android:usesCleartextTraffic="true"/' \
+            android/app/src/main/AndroidManifest.xml
+          grep -q usesCleartextTraffic android/app/src/main/AndroidManifest.xml \
+            && echo "✅ cleartext 已开启" || { echo "❌ sed 失败"; exit 1; }
+
+      - name: Sync web → native
+        working-directory: frontend
+        run: npx cap sync android
+
+      - name: Build debug APK
+        working-directory: frontend/android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: future-app-debug
+          path: frontend/android/app/build/outputs/apk/debug/*.apk
+          retention-days: 30
+
+      # 打 tag 时额外发到 Release（方便扫码/直链下载）
+      - name: Attach APK to Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: frontend/android/app/build/outputs/apk/debug/*.apk
+          generate_release_notes: true

@@ -6,3 +6,8 @@ dist-ssr
 .env.*.local
 *.log
 .DS_Store
+
+# Capacitor 生成的原生工程（CI 里动态生成，不提交）
+android/
+ios/
+.capacitor/
