@@ -4,9 +4,10 @@ interface Props {
   sending: boolean
   onSend: (text: string) => void
   onAbort: () => void
+  placeholder?: string
 }
 
-export function InputBar({ sending, onSend, onAbort }: Props) {
+export function InputBar({ sending, onSend, onAbort, placeholder }: Props) {
   const [value, setValue] = useState('')
 
   const submit = () => {
@@ -29,7 +30,7 @@ export function InputBar({ sending, onSend, onAbort }: Props) {
         <textarea
           className="flex-1 resize-none rounded-xl border border-line bg-ink/60 px-3 py-2 text-primary placeholder:text-muted outline-none focus:border-line2 transition-colors max-h-40"
           rows={1}
-          placeholder={sending ? 'AI 正在回复…' : '输入消息，Enter 发送，Shift+Enter 换行'}
+          placeholder={placeholder ?? (sending ? 'AI 正在回复…' : '输入消息，Enter 发送，Shift+Enter 换行')}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={onKeyDown}

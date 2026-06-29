@@ -19,8 +19,9 @@ export function ChatWindow() {
     clearMessages,
   } = useChat()
 
-  // 幽灵回放：进入时自动开始；用户首次输入即停止
-  const { replaying, sceneIndex, sceneCount, start, stop } = useReplay(feedEvent)
+  // 幽灵回放：进入时自动开始
+  const { phase, sceneIndex, sceneLabel, sceneCount, start, stop, reset } =
+    useReplay(feedEvent)
 
   const bottomRef = useRef<HTMLDivElement>(null)
 
@@ -36,44 +37,58 @@ export function ChatWindow() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  // 用户发消息：先停掉回放，清空演示，再真实发送
+  // 退出演示：清空演示消息 + 重置回放状态，回到干净的真实对话起点
+  const exitReplay = () => {
+    stop()
+    reset()
+    clearMessages()
+  }
+
+  // 用户发消息：只要演示内容还在（playing 或 done），都先清空再真实发送。
+  // 这是避免演示消息污染真实对话历史的关键。
   const handleSend = (text: string) => {
-    if (replaying) {
-      stop()
-      clearMessages()
+    if (phase !== 'idle') {
+      exitReplay()
     }
     send(text)
   }
 
-  const showEmptyHint = messages.length === 0
+  const showStartScreen = messages.length === 0 && phase === 'idle'
+
+  // 输入框 placeholder 随状态变化，引导用户
+  const placeholder =
+    phase === 'done'
+      ? '比如「比亚迪最近怎么样」'
+      : sending
+        ? 'AI 正在回复…'
+        : '输入消息，Enter 发送，Shift+Enter 换行'
 
   return (
     <div className="flex flex-col h-full">
-      {/* 回放中时，顶部显示进度条 */}
-      {replaying && (
-        <div className="shrink-0">
+      {/* 演示中：顶部显示"第 N 幕 · 能力名"+ 跳过按钮 */}
+      {phase === 'playing' && (
+        <div className="shrink-0 border-b border-line/50 bg-panel/40">
           <EmptyHint
-            replaying
+            phase="playing"
             sceneIndex={sceneIndex}
+            sceneLabel={sceneLabel}
             sceneCount={sceneCount}
-            onStartReplay={() => {}}
-            onSkipReplay={() => {
-              stop()
-              clearMessages()
-            }}
+            onStart={start}
+            onSkip={exitReplay}
           />
         </div>
       )}
 
       <div className="flex-1 min-h-0 overflow-y-auto px-4 py-6">
         <div className="max-w-3xl mx-auto space-y-4">
-          {showEmptyHint && !replaying && (
+          {showStartScreen && (
             <EmptyHint
-              replaying={false}
+              phase="idle"
               sceneIndex={sceneIndex}
+              sceneLabel={sceneLabel}
               sceneCount={sceneCount}
-              onStartReplay={() => start()}
-              onSkipReplay={() => {}}
+              onStart={start}
+              onSkip={() => {}}
             />
           )}
           {messages.map((m) => (
@@ -82,9 +97,29 @@ export function ChatWindow() {
           <div ref={bottomRef} />
         </div>
       </div>
-      <InputBar sending={sending} onSend={handleSend} onAbort={abort} />
 
-      {/* elicit 下单确认模态：回放期间也会弹出，2.5s 后自动关闭 */}
+      {/* 演示完毕：输入框上方出现引导条 */}
+      {phase === 'done' && (
+        <div className="shrink-0 border-t border-line/50 bg-panel/40 px-4">
+          <div className="max-w-3xl mx-auto">
+            <EmptyHint
+              phase="done"
+              sceneIndex={sceneIndex}
+              sceneLabel={sceneLabel}
+              sceneCount={sceneCount}
+              onStart={() => {
+                exitReplay()
+                start()
+              }}
+              onSkip={exitReplay}
+            />
+          </div>
+        </div>
+      )}
+
+      <InputBar sending={sending} onSend={handleSend} onAbort={abort} placeholder={placeholder} />
+
+      {/* elicit 下单确认模态：回放期间也会弹出，数秒后自动关闭 */}
       {pendingElicit && (
         <ElicitOrderPanel
           elicit={pendingElicit}
