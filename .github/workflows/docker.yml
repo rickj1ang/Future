@@ -47,8 +47,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+# 只构建 linux/amd64：避免 QEMU 模拟 Node/V8 时的 SIGILL 崩溃。
+# 后端 Go 镜像虽能在 arm64 构建成功，但服务器是 amd64，无需双架构。
+# 将来换 ARM 服务器再启用 QEMU + linux/arm64。
+# - name: Set up QEMU
+#   uses: docker/setup-qemu-action@v3
 
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v3
@@ -76,7 +79,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
