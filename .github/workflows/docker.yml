@@ -1,0 +1,86 @@
+# ════════════════════════════════════════════════════
+# Future 后端镜像：自动构建并发布到 GitHub Container Registry (GHCR)
+#
+# 触发：
+#   - 推送 main 且改动 backend/** 或本工作流文件
+#   - 打 tag v* 时（会用版本号作为镜像标签）
+#   - Actions 页面手动运行 (workflow_dispatch)
+#
+# 产物：
+#   ghcr.io/rickj1ang/future-mcp-server:<tag>
+#   ghcr.io/rickj1ang/future-core-agent:<tag>
+# 标签策略：latest / 分支名 / commit 短 sha / git tag
+# 架构：linux/amd64 + linux/arm64（静态 Go 二进制，构建快）
+# ════════════════════════════════════════════════════
+
+name: Build & Publish Docker Images
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+    paths:
+      - 'backend/**'
+      - '.github/workflows/docker.yml'
+  workflow_dispatch:   # 允许在 Actions 页面手动触发
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write     # 推送到 GHCR 必需
+
+    strategy:
+      fail-fast: false     # 一个镜像失败不影响另一个
+      matrix:
+        include:
+          - image: future-mcp-server
+            context: backend/mcp-server
+          - image: future-core-agent
+            context: backend/core-agent
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 多架构构建：arm64 通过 QEMU 模拟
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}   # 自动提供，无需配置
+
+      # 自动生成标签：latest(仅默认分支) / branch / sha / tag
+      - name: Generate image tags
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=branch
+            type=sha,format=short,prefix=
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # GitHub Actions cache：改代码不重下/重编 Go 依赖，大幅提速
+          cache-from: type=gha,scope=${{ matrix.image }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1

@@ -1,0 +1,22 @@
+# 本地编译产物 / 二进制（尤其 smoke 11MB，别进构建上下文）
+smoke
+*.test
+*.out
+*.tmp
+tmp/
+
+# 本地环境（镜像里不读，运行时由 -e / compose 注入）
+.env
+.env.local
+
+# Docker 自身文件
+Dockerfile
+.dockerignore
+
+# OS / 编辑器
+.DS_Store
+.vscode/
+.idea/
+
+# 文档不进镜像（减小上下文）
+*.md

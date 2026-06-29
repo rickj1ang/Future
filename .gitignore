@@ -27,6 +27,9 @@ logs/
 .env.local
 .env.*.local
 
+# docker 构建上下文里的临时/产物（根 .dockerignore 已各自处理，
+# 这里冗余兜底，防止误 git add）
+
 # ── 前端 frontend (Vite + React + TypeScript) ───────
 node_modules/
 dist/

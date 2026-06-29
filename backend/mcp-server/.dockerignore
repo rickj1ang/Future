@@ -1,0 +1,21 @@
+# 本地编译产物 / 临时文件
+*.test
+*.out
+*.tmp
+tmp/
+
+# 本地环境
+.env
+.env.local
+
+# Docker 自身文件
+Dockerfile
+.dockerignore
+
+# OS / 编辑器
+.DS_Store
+.vscode/
+.idea/
+
+# 文档不进镜像（kline.html 是 go:embed 资源，必须保留，不在忽略之列）
+*.md

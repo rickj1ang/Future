@@ -1,0 +1,36 @@
+# ════════════════════════════════════════════════════
+# Future 后端编排：一键启动 mcp-server + core-agent
+# 用法:
+#   1) cp .env.example .env   填入 DEEPSEEK_API_KEY
+#   2) docker compose up --build -d
+#   3) curl http://localhost:8081/health   -> ok
+# ════════════════════════════════════════════════════
+
+services:
+  # ── MCP 工具服务（行情 / 下单 / 撤单）─────────────
+  mcp-server:
+    build:
+      context: ./backend/mcp-server
+    container_name: future-mcp-server
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  # ── 核心 Agent（对话编排，调用 LLM + MCP 工具）─────
+  core-agent:
+    build:
+      context: ./backend/core-agent
+    container_name: future-core-agent
+    depends_on:
+      - mcp-server            # 仅保证启动顺序；就绪由 core-agent 内部 PollUntilReady 处理
+    environment:
+      # 容器间走内网 DNS，直连 mcp-server 服务名
+      MCP_SERVER_URL: http://mcp-server:8080/mcp
+      # DeepSeek LLM（密钥从根 .env 读取，避免硬编码）
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-https://api.deepseek.com}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:?DEEPSEEK_API_KEY is required}
+      LLM_MODEL: ${LLM_MODEL:-deepseek-v4-flash}
+      AGENT_PORT: "8081"
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
