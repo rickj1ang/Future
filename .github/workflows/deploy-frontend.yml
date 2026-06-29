@@ -1,0 +1,75 @@
+# ════════════════════════════════════════════════════
+# Future 前端：构建并部署到 GitHub Pages
+#
+# 部署地址: https://rickj1ang.github.io/Future/
+#
+# 触发: 推送 main 且改动 frontend/** 或本工作流
+#
+# ⚠️ 重要：GitHub Pages 只托管静态文件，没有后端。
+#    前端要真正能聊天，需另把 core-agent 部署到公网，
+#    并在仓库 Settings → Secrets 配 VITE_CORE_AGENT_URL 指向它。
+#    未配置前，Pages 上的站点 UI 可见但无法对话。
+#
+# ⚠️ 首次使用前，需到 仓库 Settings → Pages → Source 选 "GitHub Actions"
+# ════════════════════════════════════════════════════
+
+name: Deploy Frontend to Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy-frontend.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write              # 写 Pages
+  id-token: write           # deploy-pages 的 OIDC 鉴权
+
+# 同一时刻只跑一个部署，新推送取消正在进行的旧部署
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install & Build
+        working-directory: frontend
+        env:
+          # GH Pages 子路径，必须与 vite.config.ts 的 base 对齐
+          PAGES_BASE_PATH: /Future/
+          # 公开后端地址（可选；未配 secret 时为空，UI 可见但无法对话）
+          VITE_CORE_AGENT_URL: ${{ secrets.VITE_CORE_AGENT_URL }}
+        run: |
+          npm ci
+          npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
