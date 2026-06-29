@@ -1,0 +1,54 @@
+# ════════════════════════════════════════════════════
+# Future 仓库统一 .gitignore
+# 原则：源码、配置模板(.env.example)、文档上传；
+#       依赖、构建产物、密钥、临时文件一律不上传。
+# 注意：gitignore 不支持行内注释，注释必须独占一行。
+# ════════════════════════════════════════════════════
+
+# ── 操作系统 / 编辑器 ───────────────────────────────
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── 日志 ───────────────────────────────────────────
+*.log
+logs/
+
+# ── 环境变量（只提交 .env.example，真实密钥不上传）────
+.env
+.env.local
+.env.*.local
+
+# ── 前端 frontend (Vite + React + TypeScript) ───────
+node_modules/
+dist/
+dist-ssr/
+
+# TS 增量编译缓存
+*.tsbuildinfo
+
+# vite.config.ts 由 `tsc -b` 编译出的产物（源 .ts 文件保留）
+frontend/vite.config.js
+frontend/vite.config.d.ts
+
+# ── 后端 backend (Go) ──────────────────────────────
+# 编译出的二进制（按具体路径忽略，避免误伤同名目录）
+backend/core-agent/smoke
+
+# go test 二进制与覆盖率输出
+*.test
+*.out
+coverage.txt
+
+# ── 临时文件 ───────────────────────────────────────
+# 任意层级的 tmp/ 目录
+tmp/
+*.tmp
